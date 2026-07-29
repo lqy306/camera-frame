@@ -1,0 +1,32 @@
+{
+  "id": "nikon_zf",
+  "label": "Nikon Zf",
+  "screenQuad": [
+    [
+      249,
+      540
+    ],
+    [
+      727,
+      540
+    ],
+    [
+      727,
+      857
+    ],
+    [
+      249,
+      857
+    ]
+  ],
+  "screenRenderSize": {
+    "width": 478,
+    "height": 317
+  },
+  "bodyBounds": [
+    100,
+    180,
+    1180,
+    914
+  ]
+}

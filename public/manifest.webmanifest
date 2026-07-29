@@ -1,0 +1,19 @@
+{
+  "name": "Camera Frame · 固定相机拼图",
+  "short_name": "Camera Frame",
+  "description": "在 iPhone 上离线生成固定理光相机版式拼图，照片不会上传。",
+  "lang": "zh-CN",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#17191d",
+  "theme_color": "#17191d",
+  "categories": ["photo", "utilities"],
+  "icons": [
+    { "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "./icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "./icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
+

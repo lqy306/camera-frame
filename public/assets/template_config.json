@@ -1,0 +1,116 @@
+{
+  "version": 6,
+  "canvasWidth": 1280,
+  "canvasHeight": 1813,
+  "splitY": 960,
+  "cameraTemplates": [
+    {
+      "id": "ricoh_gr2",
+      "label": "Ricoh GR II",
+      "screenQuad": [
+        { "x": 292, "y": 384 },
+        { "x": 813, "y": 383 },
+        { "x": 815, "y": 716 },
+        { "x": 290, "y": 716 }
+      ],
+      "screenRenderSize": { "width": 525, "height": 333 },
+      "assets": {
+        "reference": "reference.jpg",
+        "cameraRgba": "camera_rgba.png",
+        "cameraMask": "camera_mask.png",
+        "shadowLayer": "shadow_layer.png",
+        "shadowMask": "shadow_mask.png",
+        "backgroundMask": "background_mask.png",
+        "screenMask": "screen_mask.png",
+        "backgroundTexture": "background_texture.png",
+        "screenShading": "screen_shading.png"
+      }
+    },
+    {
+      "id": "sony_a7c2",
+      "label": "Sony A7C II",
+      "screenQuad": [
+        { "x": 295, "y": 432 },
+        { "x": 787, "y": 432 },
+        { "x": 787, "y": 764 },
+        { "x": 295, "y": 764 }
+      ],
+      "screenRenderSize": { "width": 492, "height": 332 },
+      "assets": {
+        "reference": "cameras/sony_a7c2/reference.jpg",
+        "cameraRgba": "cameras/sony_a7c2/camera_rgba.png",
+        "cameraMask": "cameras/sony_a7c2/camera_mask.png",
+        "shadowLayer": "cameras/sony_a7c2/shadow_layer.png",
+        "shadowMask": "cameras/sony_a7c2/shadow_mask.png",
+        "backgroundMask": "cameras/sony_a7c2/background_mask.png",
+        "screenMask": "cameras/sony_a7c2/screen_mask.png",
+        "backgroundTexture": "background_texture.png",
+        "screenShading": "cameras/sony_a7c2/screen_shading.png"
+      }
+    },
+    {
+      "id": "nikon_zf",
+      "label": "Nikon Zf",
+      "screenQuad": [
+        { "x": 249, "y": 540 },
+        { "x": 727, "y": 540 },
+        { "x": 727, "y": 857 },
+        { "x": 249, "y": 857 }
+      ],
+      "screenRenderSize": { "width": 478, "height": 317 },
+      "assets": {
+        "reference": "cameras/nikon_zf/reference.jpg",
+        "cameraRgba": "cameras/nikon_zf/camera_rgba.png",
+        "cameraMask": "cameras/nikon_zf/camera_mask.png",
+        "shadowLayer": "cameras/nikon_zf/shadow_layer.png",
+        "shadowMask": "cameras/nikon_zf/shadow_mask.png",
+        "backgroundMask": "cameras/nikon_zf/background_mask.png",
+        "screenMask": "cameras/nikon_zf/screen_mask.png",
+        "backgroundTexture": "background_texture.png",
+        "screenShading": "cameras/nikon_zf/screen_shading.png"
+      }
+    },
+    {
+      "id": "sigma_bf",
+      "label": "SIGMA BF",
+      "screenQuad": [
+        { "x": 136, "y": 305 },
+        { "x": 760, "y": 305 },
+        { "x": 760, "y": 775 },
+        { "x": 136, "y": 775 }
+      ],
+      "screenRenderSize": { "width": 624, "height": 470 },
+      "assets": {
+        "reference": "cameras/sigma_bf/reference.jpg",
+        "cameraRgba": "cameras/sigma_bf/camera_rgba.png",
+        "cameraMask": "cameras/sigma_bf/camera_mask.png",
+        "shadowLayer": "cameras/sigma_bf/shadow_layer.png",
+        "shadowMask": "cameras/sigma_bf/shadow_mask.png",
+        "backgroundMask": "cameras/sigma_bf/background_mask.png",
+        "screenMask": "cameras/sigma_bf/screen_mask.png",
+        "backgroundTexture": "background_texture.png",
+        "screenShading": "cameras/sigma_bf/screen_shading.png"
+      }
+    }
+  ],
+  "defaults": {
+    "cameraTemplate": "ricoh_gr2",
+    "layoutMode": "stacked",
+    "backgroundMode": "solid",
+    "autoBackground": true,
+    "backgroundColor": "#6f8795",
+    "backgroundSaturation": 55,
+    "backgroundBrightness": 65,
+    "backgroundStrength": 100,
+    "gradientStrength": 16,
+    "textureStrength": 5,
+    "shadowStrength": 70,
+    "lcdBrightness": 85,
+    "lcdSaturation": 80,
+    "lcdContrast": 95,
+    "cropMode": "cover",
+    "syncCrops": true,
+    "outputFormat": "jpeg",
+    "outputQuality": 95
+  }
+}

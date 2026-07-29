@@ -1,0 +1,32 @@
+{
+  "id": "sigma_bf",
+  "label": "SIGMA BF",
+  "screenQuad": [
+    [
+      136,
+      305
+    ],
+    [
+      760,
+      305
+    ],
+    [
+      760,
+      775
+    ],
+    [
+      136,
+      775
+    ]
+  ],
+  "screenRenderSize": {
+    "width": 624,
+    "height": 470
+  },
+  "bodyBounds": [
+    100,
+    270,
+    1180,
+    881
+  ]
+}
