@@ -1,9 +1,9 @@
 {
-  "id": "s1rm2",
-  "label": "LUMIX S1(R)M2(E)",
+  "id": "s5m2x",
+  "label": "LUMIX S5M2(X)",
   "screenQuad": [
     [
-      274,
+      276,
       505
     ],
     [
@@ -12,21 +12,21 @@
     ],
     [
       777,
-      844
+      841
     ],
     [
-      274,
-      844
+      276,
+      841
     ]
   ],
   "screenRenderSize": {
-    "width": 503,
-    "height": 339
+    "width": 501,
+    "height": 336
   },
   "bodyBounds": [
     100,
-    76,
+    74,
     1180,
-    884
+    885
   ]
 }

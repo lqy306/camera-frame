@@ -1,14 +1,18 @@
 #!/usr/bin/env python3
-"""Build the S1RM2 camera template layers from an alpha cutout with a hollowed LCD.
+"""Build LUMIX camera template layers from alpha cutouts with hollowed LCDs.
 
-The source cutout is a transparent-background camera image whose LCD screen
+Each source cutout is a transparent-background camera image whose LCD screen
 area has been removed (alpha = 0). The screen rectangle is detected
 automatically via flood fill, so no manual corner coordinates are needed.
+S1RM2 / S5M2X / S9 share the same 3:2 rear LCD across the series, but each
+body has its own geometry, so coordinates are derived per source image.
 """
 
 from __future__ import annotations
 
+import argparse
 import json
+from dataclasses import dataclass
 from pathlib import Path
 
 from PIL import Image, ImageChops, ImageDraw, ImageFilter, ImageOps
@@ -21,7 +25,20 @@ except ImportError:  # pragma: no cover
 
 CANVAS_SIZE = (1280, 960)
 TARGET_BODY_WIDTH = 1080
-BODY_TOP = 76  # vertically centered: (960 - 808) // 2
+
+
+@dataclass(frozen=True)
+class CameraSpec:
+    camera_id: str
+    label: str
+    source_name: str
+
+
+CAMERAS = {
+    "s1rm2": CameraSpec("s1rm2", "LUMIX S1(R)M2(E)", "s1rm2_cutout.png"),
+    "s5m2x": CameraSpec("s5m2x", "LUMIX S5M2(X)", "s5m2x_cutout.png"),
+    "s9": CameraSpec("s9", "LUMIX S9", "s9_cutout.png"),
+}
 
 
 def save_png(image: Image.Image, path: Path) -> None:
@@ -52,26 +69,27 @@ def detect_screen_quad(source: Image.Image) -> tuple[tuple[int, int], tuple[int,
     return ((x0, y0), (x1, y0), (x1, y1), (x0, y1))
 
 
-def build(source_path: Path, destination: Path) -> dict:
-    source = Image.open(source_path).convert("RGBA")
+def build(spec: CameraSpec, source_root: Path, destination_root: Path) -> dict:
+    source = Image.open(source_root / spec.source_name).convert("RGBA")
     bbox = source.getchannel("A").getbbox()
     if not bbox:
-        raise ValueError("S1RM2 cutout has no opaque pixels")
+        raise ValueError(f"{spec.label} cutout has no opaque pixels")
 
     cropped = source.crop(bbox)
     scale = TARGET_BODY_WIDTH / cropped.width
     target_size = (TARGET_BODY_WIDTH, round(cropped.height * scale))
     body = cropped.resize(target_size, Image.Resampling.LANCZOS)
     body_left = (CANVAS_SIZE[0] - target_size[0]) // 2
+    body_top = max(0, (CANVAS_SIZE[1] - target_size[1]) // 2)
 
     camera_rgba = Image.new("RGBA", CANVAS_SIZE, (0, 0, 0, 0))
-    camera_rgba.alpha_composite(body, (body_left, BODY_TOP))
+    camera_rgba.alpha_composite(body, (body_left, body_top))
     camera_mask = camera_rgba.getchannel("A")
 
     def map_point(point: tuple[int, int]) -> tuple[int, int]:
         return (
             round(body_left + (point[0] - bbox[0]) * scale),
-            round(BODY_TOP + (point[1] - bbox[1]) * scale),
+            round(body_top + (point[1] - bbox[1]) * scale),
         )
 
     source_quad = detect_screen_quad(source)
@@ -98,6 +116,7 @@ def build(source_path: Path, destination: Path) -> dict:
     reference = ImageOps.colorize(base_gradient, black="#eeeeee", white="#d9d9d9").convert("RGBA")
     reference.alpha_composite(shadow_layer)
 
+    destination = destination_root / spec.camera_id
     save_png(camera_rgba, destination / "camera_rgba.png")
     save_png(camera_mask, destination / "camera_mask.png")
     save_png(shadow_layer, destination / "shadow_layer.png")
@@ -108,11 +127,11 @@ def build(source_path: Path, destination: Path) -> dict:
     reference.convert("RGB").save(destination / "reference.jpg", "JPEG", quality=96, subsampling=0)
 
     metadata = {
-        "id": "s1rm2",
-        "label": "LUMIX S1RM2",
+        "id": spec.camera_id,
+        "label": spec.label,
         "screenQuad": [list(point) for point in screen_quad],
         "screenRenderSize": {"width": screen_width, "height": screen_height},
-        "bodyBounds": [body_left, BODY_TOP, body_left + target_size[0], BODY_TOP + target_size[1]],
+        "bodyBounds": [body_left, body_top, body_left + target_size[0], body_top + target_size[1]],
     }
     (destination / "template.json").write_text(
         json.dumps(metadata, ensure_ascii=False, indent=2) + "\n",
@@ -123,9 +142,15 @@ def build(source_path: Path, destination: Path) -> dict:
 
 def main() -> int:
     project_root = Path(__file__).resolve().parents[1]
-    source = project_root / "tools" / "template_sources" / "s1rm2_cutout.png"
-    destination = project_root / "public" / "assets" / "cameras" / "s1rm2"
-    print(json.dumps(build(source, destination), ensure_ascii=False, indent=2))
+    parser = argparse.ArgumentParser(description="构建 LUMIX 网页模板资源")
+    parser.add_argument("--camera", choices=["all", *CAMERAS], default="all")
+    parser.add_argument("--source-root", type=Path, default=project_root / "tools" / "template_sources")
+    parser.add_argument("--destination-root", type=Path, default=project_root / "public" / "assets" / "cameras")
+    args = parser.parse_args()
+
+    selected = CAMERAS.values() if args.camera == "all" else (CAMERAS[args.camera],)
+    results = [build(spec, args.source_root, args.destination_root) for spec in selected]
+    print(json.dumps(results, ensure_ascii=False, indent=2))
     return 0
 
 

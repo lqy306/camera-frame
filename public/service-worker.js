@@ -1,4 +1,4 @@
-const CACHE_VERSION = "camera-frame-v1.8.0";
+const CACHE_VERSION = "camera-frame-v1.9.0";
 const PRECACHE = self.__PRECACHE_MANIFEST__ || [];
 
 self.addEventListener("install", (event) => {

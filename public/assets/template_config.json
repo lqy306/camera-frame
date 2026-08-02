@@ -1,5 +1,5 @@
 {
-  "version": 8,
+  "version": 9,
   "canvasWidth": 1280,
   "canvasHeight": 1813,
   "splitY": 960,
@@ -94,7 +94,7 @@
     },
     {
       "id": "s1rm2",
-      "label": "LUMIX S1RM2",
+      "label": "LUMIX S1(R)M2(E)",
       "screenQuad": [
         { "x": 274, "y": 505 },
         { "x": 777, "y": 505 },
@@ -112,6 +112,50 @@
         "screenMask": "cameras/s1rm2/screen_mask.png",
         "backgroundTexture": "background_texture.png",
         "screenShading": "cameras/s1rm2/screen_shading.png"
+      }
+    },
+    {
+      "id": "s5m2x",
+      "label": "LUMIX S5M2(X)",
+      "screenQuad": [
+        { "x": 276, "y": 505 },
+        { "x": 777, "y": 505 },
+        { "x": 777, "y": 841 },
+        { "x": 276, "y": 841 }
+      ],
+      "screenRenderSize": { "width": 501, "height": 336 },
+      "assets": {
+        "reference": "cameras/s5m2x/reference.jpg",
+        "cameraRgba": "cameras/s5m2x/camera_rgba.png",
+        "cameraMask": "cameras/s5m2x/camera_mask.png",
+        "shadowLayer": "cameras/s5m2x/shadow_layer.png",
+        "shadowMask": "cameras/s5m2x/shadow_mask.png",
+        "backgroundMask": "cameras/s5m2x/background_mask.png",
+        "screenMask": "cameras/s5m2x/screen_mask.png",
+        "backgroundTexture": "background_texture.png",
+        "screenShading": "cameras/s5m2x/screen_shading.png"
+      }
+    },
+    {
+      "id": "s9",
+      "label": "LUMIX S9",
+      "screenQuad": [
+        { "x": 285, "y": 389 },
+        { "x": 805, "y": 389 },
+        { "x": 805, "y": 737 },
+        { "x": 285, "y": 737 }
+      ],
+      "screenRenderSize": { "width": 520, "height": 348 },
+      "assets": {
+        "reference": "cameras/s9/reference.jpg",
+        "cameraRgba": "cameras/s9/camera_rgba.png",
+        "cameraMask": "cameras/s9/camera_mask.png",
+        "shadowLayer": "cameras/s9/shadow_layer.png",
+        "shadowMask": "cameras/s9/shadow_mask.png",
+        "backgroundMask": "cameras/s9/background_mask.png",
+        "screenMask": "cameras/s9/screen_mask.png",
+        "backgroundTexture": "background_texture.png",
+        "screenShading": "cameras/s9/screen_shading.png"
       }
     }
   ],
