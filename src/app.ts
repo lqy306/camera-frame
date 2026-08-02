@@ -1,4 +1,5 @@
 import { cloneDefaultCrop, cloneDefaultSettings } from "./config/defaults";
+import { loadSettings, saveSettings } from "./config/persistence";
 import type { ColorCandidate, CropAnchor, CropTransform, LayoutMode, PhotoResource, ProcessingSettings, TemplateResources } from "./config/types";
 import { ControlPanel, type CropTarget } from "./components/control-panel";
 import { CropGestureController } from "./components/crop-editor";
@@ -90,13 +91,18 @@ export class CameraFrameApp {
     try {
       this.preview.setStatus("正在载入固定模板…", "working");
       this.resources = await loadTemplateResources();
-      this.settings = {
+      const defaults = {
         ...this.resources.config.defaults,
         layoutMode: this.resources.config.defaults.layoutMode ?? "stacked",
         backgroundMode: "solid",
         backgroundStrength: 100,
       };
-      this.rawColor = this.settings.backgroundColor;
+      const persisted = loadSettings();
+      this.settings = { ...defaults, ...(persisted?.settings ?? {}) } as ProcessingSettings;
+      if (!this.resources.templates[this.settings.cameraTemplate]) {
+        this.settings.cameraTemplate = defaults.cameraTemplate;
+      }
+      this.rawColor = persisted?.rawColor ?? this.settings.backgroundColor;
       this.controls.setCameraTemplates(this.resources.config.cameraTemplates, this.settings.cameraTemplate);
       this.controls.update(this.settings);
       this.syncLayoutPresentation();
@@ -164,6 +170,7 @@ export class CameraFrameApp {
     this.settings.backgroundColor = this.fittedColor(candidate.hex);
     this.controls.update(this.settings);
     this.controls.palette.select(candidate.hex);
+    saveSettings(this.settings, this.rawColor);
     this.dirty = true;
     this.scheduleRender(0);
   }
@@ -194,6 +201,7 @@ export class CameraFrameApp {
     }
     this.controls.update(this.settings);
     this.controls.setCandidates(this.candidates, this.rawColor);
+    saveSettings(this.settings, this.rawColor);
     this.dirty = true;
     this.scheduleRender(immediate ? 0 : 150);
   }
@@ -226,6 +234,7 @@ export class CameraFrameApp {
     this.controls.update(this.settings);
     this.controls.setCandidates(this.candidates, this.rawColor);
     this.syncLayoutPresentation();
+    saveSettings(this.settings, this.rawColor);
     this.dirty = Boolean(this.photo);
     this.scheduleRender(0);
     this.preview.setStatus("已恢复默认参数。", "success");
