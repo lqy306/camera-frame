@@ -19,13 +19,32 @@ describe("综合色提取", () => {
     expect(candidates.every((candidate) => candidate.brightness < 0.96)).toBe(true);
   });
 
-  it("把背景色限制到适合大面积使用的饱和度和亮度", () => {
-    const fitted = fitBackgroundColor("#e9eef1", 55, 65);
-    const [, saturation, brightness] = rgbToHsv(hexToRgb(fitted));
-    expect(saturation).toBeGreaterThanOrEqual(0.29);
-    expect(saturation).toBeLessThanOrEqual(0.71);
-    expect(brightness).toBeGreaterThanOrEqual(0.63);
-    expect(brightness).toBeLessThanOrEqual(0.67);
+  it("保留候选色明暗差异并把背景限制到柔和范围", () => {
+    const dark = fitBackgroundColor("#350804", 55, 65);
+    const light = fitBackgroundColor("#e9eef1", 55, 65);
+    const [, darkSaturation, darkBrightness] = rgbToHsv(hexToRgb(dark));
+    const [, lightSaturation, lightBrightness] = rgbToHsv(hexToRgb(light));
+    expect(lightBrightness - darkBrightness).toBeGreaterThan(0.15);
+    expect(darkBrightness).toBeGreaterThanOrEqual(0.35);
+    expect(lightBrightness).toBeLessThanOrEqual(0.79);
+    expect(darkSaturation).toBeGreaterThanOrEqual(0.25);
+    expect(lightSaturation).toBeLessThanOrEqual(0.71);
+  });
+
+  it("背景亮度滑块仍能整体调节亮度", () => {
+    const dim = fitBackgroundColor("#72210b", 55, 40);
+    const bright = fitBackgroundColor("#72210b", 55, 100);
+    const [, , dimBrightness] = rgbToHsv(hexToRgb(dim));
+    const [, , brightBrightness] = rgbToHsv(hexToRgb(bright));
+    expect(brightBrightness - dimBrightness).toBeGreaterThan(0.1);
+  });
+
+  it("黑白灰等中性色保持中性，不被染成粉色", () => {
+    const gray = fitBackgroundColor("#8a8a8a", 55, 65);
+    const fitted = hexToRgb(gray);
+    const [, saturation] = rgbToHsv(fitted);
+    expect(saturation).toBeLessThanOrEqual(0.02);
+    expect(Math.max(...fitted) - Math.min(...fitted)).toBeLessThanOrEqual(6);
   });
 });
 

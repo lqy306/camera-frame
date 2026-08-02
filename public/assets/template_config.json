@@ -1,5 +1,5 @@
 {
-  "version": 6,
+  "version": 8,
   "canvasWidth": 1280,
   "canvasHeight": 1813,
   "splitY": 960,
@@ -90,6 +90,28 @@
         "screenMask": "cameras/sigma_bf/screen_mask.png",
         "backgroundTexture": "background_texture.png",
         "screenShading": "cameras/sigma_bf/screen_shading.png"
+      }
+    },
+    {
+      "id": "s1rm2",
+      "label": "LUMIX S1RM2",
+      "screenQuad": [
+        { "x": 274, "y": 505 },
+        { "x": 777, "y": 505 },
+        { "x": 777, "y": 844 },
+        { "x": 274, "y": 844 }
+      ],
+      "screenRenderSize": { "width": 503, "height": 339 },
+      "assets": {
+        "reference": "cameras/s1rm2/reference.jpg",
+        "cameraRgba": "cameras/s1rm2/camera_rgba.png",
+        "cameraMask": "cameras/s1rm2/camera_mask.png",
+        "shadowLayer": "cameras/s1rm2/shadow_layer.png",
+        "shadowMask": "cameras/s1rm2/shadow_mask.png",
+        "backgroundMask": "cameras/s1rm2/background_mask.png",
+        "screenMask": "cameras/s1rm2/screen_mask.png",
+        "backgroundTexture": "background_texture.png",
+        "screenShading": "cameras/s1rm2/screen_shading.png"
       }
     }
   ],

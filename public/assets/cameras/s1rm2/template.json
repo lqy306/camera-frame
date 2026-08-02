@@ -1,0 +1,32 @@
+{
+  "id": "s1rm2",
+  "label": "LUMIX S1RM2",
+  "screenQuad": [
+    [
+      274,
+      505
+    ],
+    [
+      777,
+      505
+    ],
+    [
+      777,
+      844
+    ],
+    [
+      274,
+      844
+    ]
+  ],
+  "screenRenderSize": {
+    "width": 503,
+    "height": 339
+  },
+  "bodyBounds": [
+    100,
+    76,
+    1180,
+    884
+  ]
+}

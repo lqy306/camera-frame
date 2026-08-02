@@ -7,7 +7,7 @@ import { chromium } from "playwright-core";
 import { createServer } from "vite";
 
 const root = path.resolve(fileURLToPath(new URL("../", import.meta.url)));
-const chrome = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+const chrome = process.env.CHROME_PATH ?? "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 await access(chrome);
 
 const server = await createServer({
@@ -95,7 +95,7 @@ try {
       await drawer.locator("summary").click();
       assert.equal(await drawer.getAttribute("open"), "", "底部面板应可展开");
       const cameraSelect = page.locator('select[data-setting="cameraTemplate"]');
-      assert.equal(await cameraSelect.locator("option").count(), 4, "应提供四套相机模板");
+      assert.equal(await cameraSelect.locator("option").count(), 5, "应提供五套相机模板");
       assert.equal(await cameraSelect.inputValue(), "ricoh_gr2", "理光应保持默认模板");
       await cameraSelect.selectOption("sony_a7c2");
       assert.equal(await cameraSelect.inputValue(), "sony_a7c2", "A7C II 模板应可选择");

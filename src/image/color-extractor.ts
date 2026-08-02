@@ -202,9 +202,15 @@ export function extractColorCandidates(
 }
 
 export function fitBackgroundColor(hex: string, saturationPercent: number, brightnessPercent: number): string {
-  const [h, sourceSaturation] = rgbToHsv(hexToRgb(hex));
-  const targetSaturation = clamp(Math.max(sourceSaturation, saturationPercent / 100), 0.3, 0.7);
-  const targetBrightness = clamp(brightnessPercent / 100, 0.4, 0.78);
+  const [h, sourceSaturation, sourceBrightness] = rgbToHsv(hexToRgb(hex));
+  // 接近中性的颜色（黑白灰）保持中性：其色相无意义（如灰色被解析为红色相），
+  // 一旦注入饱和度就会把背景染成粉色/偏红。
+  const targetSaturation = sourceSaturation < 0.06
+    ? 0
+    : clamp(sourceSaturation * 0.55 + (saturationPercent / 100) * 0.45, 0.25, 0.7);
+  // 保留候选色自身的明暗与饱和差异（55% 权重），再用滑块目标微调（45% 权重），
+  // 避免所有候选色被拉平到相同亮度后，点击不同色块背景看起来毫无变化。
+  const targetBrightness = clamp(sourceBrightness * 0.55 + (brightnessPercent / 100) * 0.45, 0.35, 0.78);
   return rgbToHex(hsvToRgb([h, targetSaturation, targetBrightness]));
 }
 

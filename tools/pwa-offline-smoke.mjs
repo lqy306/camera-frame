@@ -7,7 +7,7 @@ import { chromium } from "playwright-core";
 import { preview } from "vite";
 
 const root = path.resolve(fileURLToPath(new URL("../", import.meta.url)));
-const chrome = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+const chrome = process.env.CHROME_PATH ?? "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 await access(path.join(root, "dist/index.html"));
 
 const server = await preview({ root, logLevel: "error", preview: { host: "127.0.0.1", port: 4198, strictPort: true } });
@@ -23,13 +23,16 @@ page.on("request", (request) => {
 try {
   await page.goto("http://127.0.0.1:4198/", { waitUntil: "networkidle" });
   await page.getByText("模板已就绪，请选择照片。").waitFor();
-  await page.evaluate(() => navigator.serviceWorker.ready.then(() => true));
+  await page.evaluate(async () => {
+    await navigator.serviceWorker.ready;
+    return true;
+  });
   const registrationState = await page.evaluate(async () => {
     const registration = await navigator.serviceWorker.getRegistration();
     return { active: Boolean(registration?.active), cacheKeys: await caches.keys() };
   });
   assert.equal(registrationState.active, true, "Service Worker 未激活");
-  assert.ok(registrationState.cacheKeys.includes("camera-frame-v1.6.0"), "离线缓存版本不存在");
+  assert.ok(registrationState.cacheKeys.includes("camera-frame-v1.8.0"), "离线缓存版本不存在");
   assert.deepEqual(externalRequests, [], "页面不应发出外部网络请求");
 
   await context.setOffline(true);

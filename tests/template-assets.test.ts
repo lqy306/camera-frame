@@ -16,6 +16,7 @@ describe("固定模板", () => {
     const sony = config.cameraTemplates.find((template: { id: string }) => template.id === "sony_a7c2");
     const nikon = config.cameraTemplates.find((template: { id: string }) => template.id === "nikon_zf");
     const sigma = config.cameraTemplates.find((template: { id: string }) => template.id === "sigma_bf");
+    const s1rm2 = config.cameraTemplates.find((template: { id: string }) => template.id === "s1rm2");
     expect(ricoh.screenQuad).toEqual([
       { x: 292, y: 384 }, { x: 813, y: 383 }, { x: 815, y: 716 }, { x: 290, y: 716 },
     ]);
@@ -27,6 +28,9 @@ describe("固定模板", () => {
     ]);
     expect(sigma.screenQuad).toEqual([
       { x: 136, y: 305 }, { x: 760, y: 305 }, { x: 760, y: 775 }, { x: 136, y: 775 },
+    ]);
+    expect(s1rm2.screenQuad).toEqual([
+      { x: 274, y: 505 }, { x: 777, y: 505 }, { x: 777, y: 844 }, { x: 274, y: 844 },
     ]);
     expect(config.defaults.backgroundMode).toBe("solid");
     expect(config.defaults.backgroundStrength).toBe(100);
